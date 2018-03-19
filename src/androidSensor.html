@@ -18,10 +18,7 @@
 18
 19
 20
-21
-22
-23
-24</pre></td><td><pre style="margin: 0; line-height: 125%">SensorManager sensorManager<span style="color: #666666">;</span>
+21</pre></td><td><pre style="margin: 0; line-height: 125%">SensorManager sensorManager<span style="color: #666666">;</span>
 SensorEventListener sensorEventListener<span style="color: #666666">;</span>
 sensorManager <span style="color: #666666">=</span> <span style="color: #666666">(</span>SensorManager<span style="color: #666666">)</span> <span style="color: #008000; font-weight: bold">this</span><span style="color: #666666">.</span><span style="color: #7D9029">getSystemService</span><span style="color: #666666">(</span>SENSOR_SERVICE<span style="color: #666666">);</span>
 sensorEventListener <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">new</span> SensorEventListener<span style="color: #666666">()</span> <span style="color: #666666">{</span>
@@ -41,8 +38,5 @@ sensorEventListener <span style="color: #666666">=</span> <span style="color: #0
 
   <span style="color: #666666">}</span>
 <span style="color: #666666">};</span>
-sensorManager<span style="color: #666666">.</span><span style="color: #7D9029">registerListener</span><span style="color: #666666">(</span>sensorEventListener<span style="color: #666666">,</span>
-                               sensorManager<span style="color: #666666">.</span><span style="color: #7D9029">getDefaultSensor</span><span style="color: #666666">(</span>
-                               Sensor<span style="color: #666666">.</span><span style="color: #7D9029">TYPE_GRAVITY</span><span style="color: #666666">),</span>
-                               SensorManager<span style="color: #666666">.</span><span style="color: #7D9029">SENSOR_DELAY_NORMAL</span><span style="color: #666666">);</span>
+sensorManager<span style="color: #666666">.</span><span style="color: #7D9029">registerListener</span><span style="color: #666666">(</span>sensorEventListener<span style="color: #666666">,</span>sensorManager<span style="color: #666666">.</span><span style="color: #7D9029">getDefaultSensor</span><span style="color: #666666">(</span>Sensor<span style="color: #666666">.</span><span style="color: #7D9029">TYPE_GRAVITY</span><span style="color: #666666">),</span>SensorManager<span style="color: #666666">.</span><span style="color: #7D9029">SENSOR_DELAY_NORMAL</span><span style="color: #666666">);</span>
 </pre></td></tr></table></div>
