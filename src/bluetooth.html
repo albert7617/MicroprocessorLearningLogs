@@ -1,0 +1,36 @@
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;margin-bottom:1em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">char</span> blueToothVal;
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">setup</span>() {
+  Serial.begin(<span style="color: #666666">9600</span>);
+  pinMode(<span style="color: #666666">13</span>,OUTPUT);
+}
+
+<span style="color: #B00040">void</span> <span style="color: #0000FF">loop</span>() {
+  <span style="color: #008000; font-weight: bold">if</span>(Serial.available()) {
+    blueToothVal<span style="color: #666666">=</span>Serial.read();
+  }
+  <span style="color: #008000; font-weight: bold">if</span> (blueToothVal<span style="color: #666666">==</span><span style="color: #BA2121">&#39;n&#39;</span>) {
+    digitalWrite(<span style="color: #666666">13</span>,HIGH);
+  } <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (blueToothVal<span style="color: #666666">==</span><span style="color: #BA2121">&#39;f&#39;</span>) {
+    digitalWrite(<span style="color: #666666">13</span>,LOW);
+  }
+  delay(<span style="color: #666666">1000</span>);
+}
+</pre></td></tr></table></div>

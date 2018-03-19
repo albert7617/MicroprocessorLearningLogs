@@ -144,8 +144,8 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 #content {
     width: calc(100% - 250px);
-    padding-left: 70px;
-    padding-right: 70px;
+    padding-left: 40px;
+    padding-right: 40px;
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
