@@ -1,16 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="libs/bootstrap.min.css">
+  <link rel="stylesheet" href="style2.css">
+  <script src="libs/jquery-3.3.1.min.js"></script>
+  <script src="libs/bootstrap.min.js"></script>
   <title>微處理機實驗工作日誌</title>
+  <style>
+    .top-nav {
+      height: 70px;
+    }
+
+    .full-height {
+      height: -webkit-fill-available;
+    }
+
+    .home {
+      text-align: center;
+    }
+
+    .download-link {
+      text-decoration-color: blue !important;
+      text-decoration-line: underline !important;
+    }
+
+    .vc-container {
+      margin-top: auto;
+    }
+
+    .wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .inner {
+      align-self: center;
+      padding-bottom: 20em;
+    }    
+
+    .scrollable {
+      overflow-y: auto;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+      /* make scrollbar transparent */
+    }
+    
+  </style>
 </head>
+
 <body>
-  
+  <div class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top top-nav">
+    <span class="navbar-brand mb-0 h1">微處理機實驗工作日誌</span>
+  </div>
+
+  <div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar" class="scrollable">
+      <ul class="list-unstyled components">
+        <li class="active">
+          <a href="#home">首頁</a>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content">
+      <div id="home"></div>
+      <div class="full-height home wrap">
+        <div class="inner">
+          <h1>微處理機實驗工作日誌</h1>
+          <h5>404415041 莊雅博</h5>
+          <h5>404415037 楊子緯</h5>
+          <p>PDF版下載：
+            <a href="#" class="download-link">載點</a>
+          </p>
+        </div>
+      </div>
+
+
+
+      <div class="line"></div>
+
+      <h2>2018年3月14日 星期三</h2>
+      <p>
+          因為HC-06藍芽模組會佔用Arduino的Tx/Rx接腳，所以要先把將程式寫進Arduino才可以接上藍芽模組。以下是我們測試用的程式碼：
+<pre style='color:#000000;background:#ffffff;padding:10px;'><span style='color:#800000; font-weight:bold; '>char</span> blueToothVal<span style='color:#800080; '>;</span>
+
+<span style='color:#800000; font-weight:bold; '>void</span> setup<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+  Serial<span style='color:#808030; '>.</span>begin<span style='color:#808030; '>(</span><span style='color:#008c00; '>9600</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+  pinMode<span style='color:#808030; '>(</span><span style='color:#008c00; '>13</span><span style='color:#808030; '>,</span>OUTPUT<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+<span style='color:#800080; '>}</span>
+
+<span style='color:#800000; font-weight:bold; '>void</span> loop<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+  <span style='color:#800000; font-weight:bold; '>if</span><span style='color:#808030; '>(</span>Serial<span style='color:#808030; '>.</span>available<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+    blueToothVal<span style='color:#808030; '>=</span>Serial<span style='color:#808030; '>.</span>read<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+  <span style='color:#800080; '>}</span>
+  <span style='color:#800000; font-weight:bold; '>if</span> <span style='color:#808030; '>(</span>blueToothVal<span style='color:#808030; '>=</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>'n'</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+    digitalWrite<span style='color:#808030; '>(</span><span style='color:#008c00; '>13</span><span style='color:#808030; '>,</span>HIGH<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+  <span style='color:#800080; '>}</span> <span style='color:#800000; font-weight:bold; '>else</span> <span style='color:#800000; font-weight:bold; '>if</span> <span style='color:#808030; '>(</span>blueToothVal<span style='color:#808030; '>=</span><span style='color:#808030; '>=</span><span style='color:#0000e6; '>'f'</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+    digitalWrite<span style='color:#808030; '>(</span><span style='color:#008c00; '>13</span><span style='color:#808030; '>,</span>LOW<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+  <span style='color:#800080; '>}</span>
+  delay<span style='color:#808030; '>(</span><span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
+<span style='color:#800080; '>}</span>
+</pre>
+          首先在Setup裡面先設定好包率以及輸出腳位，Pin13是Arduino板子上的LED，接著在Loop內不斷讀取接收到的訊息(第10行的Serial.read())，如果接收到”n”則亮LED，如果接收到”f”則關掉LED。另外在電腦上先和HC-06建立連線，其中連線的預設密碼為1234，連線後在終端機輸入：ls /dev/tty.*，這串指令會列出所有藍芽連線的名稱，HC-06的名稱應為「tty.HC-06-DevB」，接著輸入：sudo cu -s 9600 -l /dev/tty.HC-06-DevB，輸入後因為sudo的關係，系統會需要你輸入電腦密碼，輸入密碼後即可透過終端機傳送訊息到Arduino。
+        
+
+      </p>
+
+      <div class="line"></div>
+
+      <h2>Lorem Ipsum Dolor</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+      <div class="line"></div>
+
+      <h3>Lorem Ipsum Dolor</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+  </div>
 </body>
+
 </html>
