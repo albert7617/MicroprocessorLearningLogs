@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
+
   <style>
-    
     .top-nav {
       height: 70px;
     }
@@ -66,13 +66,15 @@
     }
   </style>
 
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="style2.css">
+  <script src="withinviewport.js"></script>
+  <script src="jquery.withinViewport.js"></script>
   <title>微處理機實驗工作日誌</title>
-  
+
   <script>
     $(document).on('click', 'a[href^="#"]', function (event) {
       event.preventDefault();
@@ -81,10 +83,19 @@
         scrollTop: $($.attr(this, 'href')).offset().top - 80
       }, 500);
     });
-    
+    $(window).bind("scroll", function () {
+      
+      $("#content > h2").withinviewport().each(function () {
+        $("#scrollspytarget > li > a").removeClass("active");
+        $('#scrollspytarget > li > a[href="#' + $(this)[0].id + '"]').addClass('active');
+      });
+    });
   </script>
 
+
+
 </head>
+
 <body>
   <div class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top top-nav">
     <span class="navbar-brand mb-0 h1">微處理機實驗工作日誌</span>
@@ -109,7 +120,7 @@
 
     <!-- Page Content Holder -->
     <div id="content">
-      <div id="home"></div>
+      <h2 id="home"></h2>
       <div class="full-height home wrap">
         <div class="inner">
           <h1>微處理機實驗工作日誌</h1>
@@ -124,8 +135,7 @@
 
 
       <div class="line"></div>
-      <div id="section1"></div>
-      <h2>2018年3月14日 星期三</h2>
+      <h2 id="section1">2018年3月14日 星期三</h2>
       <h4>Arduino藍芽連線：</h4>
       <p>因為HC-06藍芽模組會佔用Arduino的Tx/Rx接腳，所以要先把將程式寫進Arduino才可以接上藍芽模組。以下是我們測試用的程式碼：</p>
       <div id="bluetooth">
@@ -145,8 +155,7 @@
       <a class="comment-link" href="http://vincecc.blogspot.tw/2014/01/arduino-hc-06-mac.html">http://vincecc.blogspot.tw/2014/01/arduino-hc-06-mac.html</a>
       <div class="line"></div>
 
-      <div id="section2"></div>
-      <h2>2018年3月17日 星期六</h2>
+      <h2 id="section2">2018年3月17日 星期六</h2>
       <h4>Android 重力感應器使用方式：</h4>
       <p>由於我們著組會用到手機傾斜的方式來控制遙控車，所以會需要用到手機內的感應器來偵測傾角。我們可以利用Android提供加速度感應器(Accelerometer)或重力感應器(Gravity Sensor)來判斷手機的傾角，兩個感應器都會提供裝置的加速度資訊，但兩者最大的不同是加速度感應器會偵測裝置受到的所有加速度，像是裝置在移動時的加速度、重力加速度等等，而重力感應器則會整合加速度感應器和陀螺儀(Gyroscope)的資訊過濾掉裝置在移動時產生的加速度而留下單純得重力加速度，但這個感應器數值只是用在有陀螺儀的裝置上。以下是讀取感應器數值的程式碼：</p>
       <div id="androidSensor">
@@ -160,9 +169,12 @@
       <p>首先我們在第三行取得SensorManager物件，撅著在第四行透過SensorManager物件取得</p>
       <span>參考資料：</span>
       <br>
-      <span class="comment">Motion Sensors | Android Developers</span><br>
-      <a class="comment-link" href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">https://developer.android.com/guide/topics/sensors/sensors_motion.html</a><br>
-      <span class="comment">android - Accelerometer vs Gravity sensor - Stack Overflow</span><br>
+      <span class="comment">Motion Sensors | Android Developers</span>
+      <br>
+      <a class="comment-link" href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">https://developer.android.com/guide/topics/sensors/sensors_motion.html</a>
+      <br>
+      <span class="comment">android - Accelerometer vs Gravity sensor - Stack Overflow</span>
+      <br>
       <a class="comment-link" href="https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor">https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor</a>
       <div class="line"></div>
 
@@ -173,6 +185,7 @@
         sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
   </div>
-  
+
 </body>
+
 </html>
