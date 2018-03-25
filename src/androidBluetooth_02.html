@@ -1,0 +1,160 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">final</span> String TAG <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;Bluetooth&quot;</span><span style="color: #333333">;</span>
+<span style="color: #008800; font-weight: bold">private</span> BluetoothAdapter btAdapter <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">null</span><span style="color: #333333">;</span>
+<span style="color: #008800; font-weight: bold">private</span> BluetoothSocket btSocket <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">null</span><span style="color: #333333">;</span>
+
+<span style="color: #888888">// SPP UUID service</span>
+<span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #008800; font-weight: bold">final</span> UUID MY_UUID <span style="color: #333333">=</span> UUID<span style="color: #333333">.</span><span style="color: #0000CC">fromString</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;00001101-0000-1000-8000-00805F9B34FB&quot;</span><span style="color: #333333">);</span>
+<span style="color: #888888">// MAC-address of Bluetooth module (you must edit this line)</span>
+<span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">static</span> String address <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;20:15:12:15:26:18&quot;</span><span style="color: #333333">;</span>
+<span style="color: #888888">//Request Code for enableBtIntent</span>
+<span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">static</span> <span style="color: #333399; font-weight: bold">int</span> REQUEST_CODE <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">99</span><span style="color: #333333">;</span>
+
+<span style="color: #555555; font-weight: bold">@Override</span>
+<span style="color: #008800; font-weight: bold">protected</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">onCreate</span><span style="color: #333333">(</span>Bundle savedInstanceState<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">super</span><span style="color: #333333">.</span><span style="color: #0000CC">onCreate</span><span style="color: #333333">(</span>savedInstanceState<span style="color: #333333">);</span>
+    setContentView<span style="color: #333333">(</span>R<span style="color: #333333">.</span><span style="color: #0000CC">layout</span><span style="color: #333333">.</span><span style="color: #0000CC">activity_main</span><span style="color: #333333">);</span>
+
+    btAdapter <span style="color: #333333">=</span> BluetoothAdapter<span style="color: #333333">.</span><span style="color: #0000CC">getDefaultAdapter</span><span style="color: #333333">();</span>
+    checkBTState<span style="color: #333333">();</span>
+<span style="color: #333333">}</span>
+
+<span style="color: #555555; font-weight: bold">@Override</span>
+<span style="color: #008800; font-weight: bold">protected</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">onActivityResult</span><span style="color: #333333">(</span><span style="color: #333399; font-weight: bold">int</span> requestCode<span style="color: #333333">,</span> <span style="color: #333399; font-weight: bold">int</span> resultCode<span style="color: #333333">,</span> Intent data<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">super</span><span style="color: #333333">.</span><span style="color: #0000CC">onActivityResult</span><span style="color: #333333">(</span>requestCode<span style="color: #333333">,</span> resultCode<span style="color: #333333">,</span> data<span style="color: #333333">);</span>
+    <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>requestCode <span style="color: #333333">==</span> REQUEST_CODE<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>resultCode <span style="color: #333333">==</span> RESULT_OK<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+            getConnection<span style="color: #333333">();</span>
+        <span style="color: #333333">}</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+
+<span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">getConnection</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+    Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span>TAG<span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;...getting connect...&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #888888">// Set up a pointer to the remote node using it&#39;s address.</span>
+    BluetoothDevice device <span style="color: #333333">=</span> btAdapter<span style="color: #333333">.</span><span style="color: #0000CC">getRemoteDevice</span><span style="color: #333333">(</span>address<span style="color: #333333">);</span>
+    <span style="color: #888888">// Two things are needed to make a connection:</span>
+    <span style="color: #888888">//   A MAC address, which we got above.</span>
+    <span style="color: #888888">//   A Service ID or UUID. In this case we are using the UUID for SPP.</span>
+    <span style="color: #008800; font-weight: bold">try</span> <span style="color: #333333">{</span>
+        btSocket <span style="color: #333333">=</span> device<span style="color: #333333">.</span><span style="color: #0000CC">createInsecureRfcommSocketToServiceRecord</span><span style="color: #333333">(</span>MY_UUID<span style="color: #333333">);</span>
+    <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">catch</span> <span style="color: #333333">(</span>IOException e<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;Fatal Error&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;In getConnection() and socket create failed: &quot;</span> <span style="color: #333333">+</span> e<span style="color: #333333">.</span><span style="color: #0000CC">getMessage</span><span style="color: #333333">()</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;.&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span>
+    <span style="color: #888888">// Discovery is resource intensive.  Make sure it isn&#39;t going on</span>
+    <span style="color: #888888">// when you attempt to connect and pass your message.</span>
+    btAdapter<span style="color: #333333">.</span><span style="color: #0000CC">cancelDiscovery</span><span style="color: #333333">();</span>
+    <span style="color: #888888">// Establish the connection.  This will block until it connects.</span>
+    Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span>TAG<span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;...Connecting...&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #008800; font-weight: bold">try</span> <span style="color: #333333">{</span>
+        btSocket<span style="color: #333333">.</span><span style="color: #0000CC">connect</span><span style="color: #333333">();</span>
+        Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span>TAG<span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;....Connection ok...&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">catch</span> <span style="color: #333333">(</span>IOException e<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">try</span> <span style="color: #333333">{</span>
+            Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;Fatal Error&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;In getConnection() and unable to close socket during connection failure&quot;</span> <span style="color: #333333">+</span> e<span style="color: #333333">.</span><span style="color: #0000CC">getMessage</span><span style="color: #333333">()</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;.&quot;</span><span style="color: #333333">);</span>
+            btSocket<span style="color: #333333">.</span><span style="color: #0000CC">close</span><span style="color: #333333">();</span>
+        <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">catch</span> <span style="color: #333333">(</span>IOException e2<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+            Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;Fatal Error&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;In getConnection() and unable to close socket during connection failure&quot;</span> <span style="color: #333333">+</span> e2<span style="color: #333333">.</span><span style="color: #0000CC">getMessage</span><span style="color: #333333">()</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;.&quot;</span><span style="color: #333333">);</span>
+        <span style="color: #333333">}</span>
+    <span style="color: #333333">}</span>
+    <span style="color: #888888">// Create a data stream so we can talk to server.</span>
+    Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span>TAG<span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;...Create Socket...&quot;</span><span style="color: #333333">);</span>
+    mConnectedThread <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> ConnectedThread<span style="color: #333333">(</span>btSocket<span style="color: #333333">);</span>
+    mConnectedThread<span style="color: #333333">.</span><span style="color: #0000CC">start</span><span style="color: #333333">();</span>
+<span style="color: #333333">}</span>
+
+<span style="color: #008800; font-weight: bold">private</span> <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">checkBTState</span><span style="color: #333333">()</span> <span style="color: #333333">{</span>
+    <span style="color: #888888">// Check for Bluetooth support and then check to make sure it is turned on</span>
+    <span style="color: #888888">// Emulator doesn&#39;t support Bluetooth and will return null</span>
+    <span style="color: #008800; font-weight: bold">if</span><span style="color: #333333">(</span>btAdapter<span style="color: #333333">==</span><span style="color: #008800; font-weight: bold">null</span><span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;Fatal Error&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;Bluetooth not support&quot;</span><span style="color: #333333">);</span>
+    <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">else</span> <span style="color: #333333">{</span>
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">(</span>btAdapter<span style="color: #333333">.</span><span style="color: #0000CC">isEnabled</span><span style="color: #333333">())</span> <span style="color: #333333">{</span>
+            Log<span style="color: #333333">.</span><span style="color: #0000CC">d</span><span style="color: #333333">(</span>TAG<span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;...Bluetooth ON...&quot;</span><span style="color: #333333">);</span>
+            getConnection<span style="color: #333333">();</span>
+        <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">else</span> <span style="color: #333333">{</span>
+            <span style="color: #888888">//Prompt user to turn on Bluetooth</span>
+            Intent enableBtIntent <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Intent<span style="color: #333333">(</span>BluetoothAdapter<span style="color: #333333">.</span><span style="color: #0000CC">ACTION_REQUEST_ENABLE</span><span style="color: #333333">);</span>
+            startActivityForResult<span style="color: #333333">(</span>enableBtIntent<span style="color: #333333">,</span> REQUEST_CODE<span style="color: #333333">);</span>
+        <span style="color: #333333">}</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></td></tr></table></div>

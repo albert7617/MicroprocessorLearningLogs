@@ -64,6 +64,15 @@
     a.comment-link {
       word-wrap: break-word;
     }
+
+    p {
+      word-wrap: break-word;
+    }
+
+    img.center {
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 
 
@@ -84,7 +93,7 @@
       }, 500);
     });
     $(window).bind("scroll", function () {
-      
+
       $("#content > h2").withinviewport().each(function () {
         $("#scrollspytarget > li > a").removeClass("active");
         $('#scrollspytarget > li > a[href="#' + $(this)[0].id + '"]').addClass('active');
@@ -114,6 +123,9 @@
         <li>
           <a href="#section2">2018年3月17日</a>
         </li>
+        <li>
+          <a href="#section3">2018年3月20日</a>
+        </li>
 
       </ul>
     </nav>
@@ -136,7 +148,7 @@
 
       <div class="line"></div>
       <h2 id="section1">2018年3月14日 星期三</h2>
-      <h4>Arduino藍芽連線：</h4>
+      <h3>Arduino藍芽連線：</h3>
       <p>因為HC-06藍芽模組會佔用Arduino的Tx/Rx接腳，所以要先把將程式寫進Arduino才可以接上藍芽模組。以下是我們測試用的程式碼：</p>
       <div id="bluetooth">
         <script>
@@ -156,7 +168,7 @@
       <div class="line"></div>
 
       <h2 id="section2">2018年3月17日 星期六</h2>
-      <h4>Android 重力感應器使用方式：</h4>
+      <h3>Android 重力感應器使用方式：</h3>
       <p>由於我們著組會用到手機傾斜的方式來控制遙控車，所以會需要用到手機內的感應器來偵測傾角。我們可以利用Android提供加速度感應器(Accelerometer)或重力感應器(Gravity Sensor)來判斷手機的傾角，兩個感應器都會提供裝置的加速度資訊，但兩者最大的不同是加速度感應器會偵測裝置受到的所有加速度，像是裝置在移動時的加速度、重力加速度等等，而重力感應器則會整合加速度感應器和陀螺儀(Gyroscope)的資訊過濾掉裝置在移動時產生的加速度而留下單純得重力加速度，但這個感應器數值只是用在有陀螺儀的裝置上。以下是讀取感應器數值的程式碼：</p>
       <div id="androidSensor">
         <script>
@@ -166,7 +178,9 @@
         </script>
       </div>
       <br>
-      <p>首先我們在第三行取得SensorManager物件，撅著在第四行透過SensorManager物件取得</p>
+      <p>為了得到感應器的數值必須在第3行透過getSystemService取得SensorManager，接著用sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)來取得重力感應器，這邊的Sensor.TYPE_GRAVITY可以改成其他參數來取得不同的感應器，像是傳入Sensor.TYPE_GYROSCOPE可以得到陀螺儀。</p>
+      <img src="/img/axis_device.png" alt="" srcset="" class="center">
+      <p>得到感應器之後，必須註冊一個傾聽者(Listener)才能夠得到感應器的數值。在第4行建立一個SensorEventListener物件，在第6行，當感應器數值有變化時會呼叫這個方法(Method)，這邊的程式是當感應器的數值有變化時，會把感應器的數值寫到主控台(Console)，其中sensorEvent.values[0]、sensorEvent.values[1]、sensorEvent.values[2]分別代表X、Y、Z方向的加速度(如上圖所示)。最後在第21行把前面的重力感應器註冊到傾聽者。</p>
       <span>參考資料：</span>
       <br>
       <span class="comment">Motion Sensors | Android Developers</span>
@@ -178,11 +192,50 @@
       <a class="comment-link" href="https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor">https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor</a>
       <div class="line"></div>
 
-      <h3>Lorem Ipsum Dolor</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <h2 id="section3">2018年3月20日 星期二</h2>
+      <h3>Android 藍芽使用方式：</h3>
+      <p>這部分的程式碼是從GitHub上複製下來並修改而來的，我也花了不少時間理解他，因此我會把整個連線的過程分成三個部分來說明。</p>
+      <h4>第一部分-藍芽連線基礎：</h4>
+      <p>要跟HC-06連線我們需要兩參數，位址和UUID。位址是HC-06的硬體位址(Hardware Address)，可以從包裝上或是直接用電腦和HC-06連線後取得。UUID代表通用唯一識別碼(Universally Unique Identifier)，UUID在這邊是用來標示藍芽設備所提供的服務，有點像是網路架構內應用層的port number，20代表FTP、80代表HTTP等等，一個藍牙設備可以提供多種服務，像是A2DP(藍牙音訊傳輸)、HSB(耳機)、PBAP(電話簿)、SPP(串列埠通訊)等等，這些常用的服務都有一組對應的UUID，若是想要定義一個新的服務可以自己隨機產生一組UUID，只要收送兩端有一樣的UUID即可通訊。這邊我們想要跟HC-06連線，而HC-06用的是SPP(Serial Port Protocol)，在網路上可以查到他的UUID為00001101-0000-1000-8000-00805F9B34FB。</p>
+      <div id="androidBluetooth_01">
+        <script>
+          $(function () {
+            $("#androidBluetooth_01").load("src/androidBluetooth_01.html");
+          });
+        </script>
+      </div>
+      <br>
+      <h4>第二部分-Android開啟藍芽：</h4>
+      <p>這部分主要是在講解怎麼開啟Android裝置的藍芽，要在Android APP上使用藍芽之前，必須取得使用藍芽的權限。要取得藍芽的使用權限則必須在AndroidManifest.xml內加入以下程式碼：</p>
+      <div id="androidPermission">
+        <script>
+          $(function () {
+            $("#androidPermission").load("src/androidPermission.html");
+          });
+        </script>
+      </div>
+      <br>
+      <p>接著啟動藍芽的程式碼如下：</p>
+      <div id="androidBluetooth_02">
+        <script>
+          $(function () {
+            $("#androidBluetooth_02").load("src/androidBluetooth_02.html");
+          });
+        </script>
+      </div>
+      <br>
+      <p>開啟藍芽連線的第一步是要先確認這個裝置是否支援藍芽，在第17行先取得BluetoothAdapter，接著第18行檢查藍芽狀態，在checkBTState內先檢查剛剛取得的BluetoothAdapter是否為null，若為null代表此裝置部支援藍芽，接著由第71行檢查藍芽是否開啟，若藍芽已開啟就直接去取得連線的程式碼，若藍芽處於關閉的狀態，則要求使用者開啟藍芽。</p>
+      <p>為了在不離開APP的情況下要求使用者開啟藍芽，我們可以啟動一個新的Activity來要求使用者開啟藍芽，Activity代表應用程式中的單一畫面。在第76行BluetoothAdapter.ACTION_REQUEST_ENABLE是android.Bluetooth函式庫內的一個Activity，在76行把它包裝到意圖(Intent)後下一行利用startActivityForResult啟動這個Activity。這邊的startActivityForResult直翻成中文還滿白話的，就是為了某種結果去啟動一個Activity，startActivityForResult的第二個參數是我在第10行定義的，這個數字是當我們使用多個startActivityForResult時用來辨別Activity傳回來的結果。當我們剛剛啟動的Activity結束後會呼叫onActivityResult(22行)並傳入剛剛提到的requestCode和執行結果resultCode。進入onActivityResult後先用requstCode判斷是不是我們之前啟動的Activtiy，接著用resultCode判斷執行結果，RESULT_OK代表使用者開啟藍芽並執行取得連線的程式碼(getConnection())。</p>
+      <span>參考資料：</span>
+      <br>
+      <span class="comment">Motion Sensors | Android Developers</span>
+      <br>
+      <a class="comment-link" href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">https://developer.android.com/guide/topics/sensors/sensors_motion.html</a>
+      <br>
+      <span class="comment">android - Accelerometer vs Gravity sensor - Stack Overflow</span>
+      <br>
+      <a class="comment-link" href="https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor">https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor</a>
+      <div class="line"></div>
     </div>
   </div>
 
