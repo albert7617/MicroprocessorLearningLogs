@@ -81,10 +81,182 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="style2.css">
   <script src="withinviewport.js"></script>
-  <script src="jquery.withinViewport.js"></script>
+  <script src="jquery_withinViewport.js"></script>
   <title>微處理機實驗工作日誌</title>
 
   <script>
+    /**
+     * Within Viewport jQuery Plugin
+     *
+     * @description Companion plugin for withinviewport.js - determines whether an element is completely within the browser viewport
+     * @author      Craig Patik, http://patik.com/
+     * @version     2.0.0
+     * @date        2016-12-19
+     */
+    (function ($) {
+      /**
+       * $.withinviewport()
+       * @description          jQuery method
+       * @param  {Object}      [settings] optional settings
+       * @return {Collection}  Contains all elements that were within the viewport
+       */
+      $.fn.withinviewport = function (settings) {
+        var opts;
+        var elems;
+
+        if (typeof settings === 'string') {
+          settings = {
+            sides: settings
+          };
+        }
+
+        opts = $.extend({}, settings, {
+          sides: 'all'
+        });
+        elems = [];
+
+        this.each(function () {
+          if (withinviewport(this, opts)) {
+            elems.push(this);
+          }
+        });
+
+        return $(elems);
+      };
+
+      // Main custom selector
+      $.extend($.expr[':'], {
+        'within-viewport': function (element) {
+          return withinviewport(element, 'all');
+        }
+      });
+
+      /**
+       * Optional enhancements and shortcuts
+       *
+       * @description Uncomment or comment these pieces as they apply to your project and coding preferences
+       */
+
+      // Shorthand jQuery methods
+
+      $.fn.withinviewporttop = function (settings) {
+        var opts;
+        var elems;
+
+        if (typeof settings === 'string') {
+          settings = {
+            sides: settings
+          };
+        }
+
+        opts = $.extend({}, settings, {
+          sides: 'top'
+        });
+        elems = [];
+
+        this.each(function () {
+          if (withinviewport(this, opts)) {
+            elems.push(this);
+          }
+        });
+
+        return $(elems);
+      };
+
+      $.fn.withinviewportright = function (settings) {
+        var opts;
+        var elems;
+
+        if (typeof settings === 'string') {
+          settings = {
+            sides: settings
+          };
+        }
+
+        opts = $.extend({}, settings, {
+          sides: 'right'
+        });
+        elems = [];
+
+        this.each(function () {
+          if (withinviewport(this, opts)) {
+            elems.push(this);
+          }
+        });
+
+        return $(elems);
+      };
+
+      $.fn.withinviewportbottom = function (settings) {
+        var opts;
+        var elems;
+
+        if (typeof settings === 'string') {
+          settings = {
+            sides: settings
+          };
+        }
+
+        opts = $.extend({}, settings, {
+          sides: 'bottom'
+        });
+        elems = [];
+
+        this.each(function () {
+          if (withinviewport(this, opts)) {
+            elems.push(this);
+          }
+        });
+
+        return $(elems);
+      };
+
+      $.fn.withinviewportleft = function (settings) {
+        var opts;
+        var elems;
+
+        if (typeof settings === 'string') {
+          settings = {
+            sides: settings
+          };
+        }
+
+        opts = $.extend({}, settings, {
+          sides: 'left'
+        });
+        elems = [];
+
+        this.each(function () {
+          if (withinviewport(this, opts)) {
+            elems.push(this);
+          }
+        });
+
+        return $(elems);
+      };
+
+      // Custom jQuery selectors
+      $.extend($.expr[':'], {
+        'within-viewport-top': function (element) {
+          return withinviewport(element, 'top');
+        },
+        'within-viewport-right': function (element) {
+          return withinviewport(element, 'right');
+        },
+        'within-viewport-bottom': function (element) {
+          return withinviewport(element, 'bottom');
+        },
+        'within-viewport-left': function (element) {
+          return withinviewport(element, 'left');
+        }
+        // Example custom selector:
+        //,
+        // 'within-viewport-top-left-45': function (element) {
+        //     return withinviewport(element, {sides:'top left', top: 45, left: 45});
+        // }
+      });
+    }(jQuery));
+
     $(document).on('click', 'a[href^="#"]', function (event) {
       event.preventDefault();
 
@@ -196,7 +368,9 @@
       <h3>Android 藍芽使用方式：</h3>
       <p>這部分的程式碼是從GitHub上複製下來並修改而來的，我也花了不少時間理解他，因此我會把整個連線的過程分成三個部分來說明。</p>
       <h4>第一部分-藍芽連線基礎：</h4>
-      <p>要跟HC-06連線我們需要兩參數，位址和UUID。位址是HC-06的硬體位址(Hardware Address)，可以從包裝上或是直接用電腦和HC-06連線後取得。UUID代表通用唯一識別碼(Universally Unique Identifier)，UUID在這邊是用來標示藍芽設備所提供的服務，有點像是網路架構內應用層的port number，20代表FTP、80代表HTTP等等，一個藍牙設備可以提供多種服務，像是A2DP(藍牙音訊傳輸)、HSB(耳機)、PBAP(電話簿)、SPP(串列埠通訊)等等，這些常用的服務都有一組對應的UUID，若是想要定義一個新的服務可以自己隨機產生一組UUID，只要收送兩端有一樣的UUID即可通訊。這邊我們想要跟HC-06連線，而HC-06用的是SPP(Serial Port Protocol)，在網路上可以查到他的UUID為00001101-0000-1000-8000-00805F9B34FB。</p>
+      <p>要跟HC-06連線我們需要兩參數，位址和UUID。位址是HC-06的硬體位址(Hardware Address)，可以從包裝上或是直接用電腦和HC-06連線後取得。UUID代表通用唯一識別碼(Universally Unique
+        Identifier)，UUID在這邊是用來標示藍芽設備所提供的服務，有點像是網路架構內應用層的port number，20代表FTP、80代表HTTP等等，一個藍牙設備可以提供多種服務，像是A2DP(藍牙音訊傳輸)、HSB(耳機)、PBAP(電話簿)、SPP(串列埠通訊)等等，這些常用的服務都有一組對應的UUID，若是想要定義一個新的服務可以自己隨機產生一組UUID，只要收送兩端有一樣的UUID即可通訊。這邊我們想要跟HC-06連線，而HC-06用的是SPP(Serial
+        Port Protocol)，在網路上可以查到他的UUID為00001101-0000-1000-8000-00805F9B34FB。</p>
       <div id="androidBluetooth_01">
         <script>
           $(function () {
