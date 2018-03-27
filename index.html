@@ -67,11 +67,16 @@
 
     p {
       word-wrap: break-word;
+      text-indent: 30px;
     }
 
     img.center {
       display: block;
       margin: 0 auto;
+    }
+
+    .inner > p {
+      text-indent: 0px;
     }
   </style>
 
@@ -400,6 +405,37 @@
       <br>
       <p>開啟藍芽連線的第一步是要先確認這個裝置是否支援藍芽，在第17行先取得BluetoothAdapter，接著第18行檢查藍芽狀態，在checkBTState內先檢查剛剛取得的BluetoothAdapter是否為null，若為null代表此裝置部支援藍芽，接著由第71行檢查藍芽是否開啟，若藍芽已開啟就直接去取得連線的程式碼，若藍芽處於關閉的狀態，則要求使用者開啟藍芽。</p>
       <p>為了在不離開APP的情況下要求使用者開啟藍芽，我們可以啟動一個新的Activity來要求使用者開啟藍芽，Activity代表應用程式中的單一畫面。在第76行BluetoothAdapter.ACTION_REQUEST_ENABLE是android.Bluetooth函式庫內的一個Activity，在76行把它包裝到意圖(Intent)後下一行利用startActivityForResult啟動這個Activity。這邊的startActivityForResult直翻成中文還滿白話的，就是為了某種結果去啟動一個Activity，startActivityForResult的第二個參數是我在第10行定義的，這個數字是當我們使用多個startActivityForResult時用來辨別Activity傳回來的結果。當我們剛剛啟動的Activity結束後會呼叫onActivityResult(22行)並傳入剛剛提到的requestCode和執行結果resultCode。進入onActivityResult後先用requstCode判斷是不是我們之前啟動的Activtiy，接著用resultCode判斷執行結果，RESULT_OK代表使用者開啟藍芽並執行取得連線的程式碼(getConnection())。</p>
+      <h4>第三部分-Android傳輸資料與多線程：</h4>
+      <p>這部分主要是在講解Android怎麼和其他裝置連線。在和其他裝置傳輸資料時會需要等待對方ACK之類的回應，為了避免等待的過程阻礙UI Thread(UI Thread Blocking)造成使用上的頓挫感，因此這部分的程式會用到多線程(multithread)的概念。和其他裝置連線的程式其實就幾行而已，只是被很多try、catch包起來(從第31行到63行)，加上程式碼跟Google開發者指南網站上講得基本上是一樣的，因此這部分主要以介紹多線程的概念為主。</p>
+      <p>為了創造新的執行線程，我們得創造一個繼承Thread的類別(class)。以下是我們要創造的類別：</p>
+      <div id="androidBluetoothConnectedThread_01">
+        <script>
+          $(function () {
+            $("#androidBluetoothConnectedThread_01").load("src/androidBluetoothConnectedThread_01.html");
+          });
+        </script>
+      </div>
+      <br>
+      <p>這邊我宣告一個新的類別ConnectedThread並繼承Thread類別，同時為了接收、傳送資料，在建構子這邊我把藍芽接口(socket)傳進來，並取得輸入、輸出串流。接著我們要覆寫父類別內的run方法(method)。</p>
+      <div id="androidBluetoothConnectedThread_02">
+        <script>
+          $(function () {
+            $("#androidBluetoothConnectedThread_02").load("src/androidBluetoothConnectedThread_02.html");
+          });
+        </script>
+      </div>
+      <br>
+      <p>這邊的程式是當這個執行緒建立時會執行的程式碼，這邊的程式基本上就是不斷的讀取輸入串流，一旦讀取到資料就送到UI Thread中，至於是怎麼傳送到UI Thread的會在後面說明。完成了讀取的部分之後我們現在要來寫傳送的部分。</p>
+      <div id="androidBluetoothConnectedThread_03">
+        <script>
+          $(function () {
+            $("#androidBluetoothConnectedThread_03").load("src/androidBluetoothConnectedThread_03.html");
+          });
+        </script>
+      </div>
+      <br>
+      <p>這邊加入了write方法，看起來有點複雜，但真正在傳送資料的只有第42行的mmOutStream.write(bytes);，其他的程式碼都是在回傳成功或失敗的執行結果。接下來要說明如何傳送資訊回到UI Thread。</p>
+
       <span>參考資料：</span>
       <br>
       <span class="comment">Motion Sensors | Android Developers</span>

@@ -1,0 +1,38 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">ConnectedThread</span> <span style="color: #008800; font-weight: bold">extends</span> Thread <span style="color: #333333">{</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">final</span> InputStream mmInStream<span style="color: #333333">;</span>
+    <span style="color: #008800; font-weight: bold">private</span> <span style="color: #008800; font-weight: bold">final</span> OutputStream mmOutStream<span style="color: #333333">;</span>
+
+    <span style="color: #008800; font-weight: bold">public</span> <span style="color: #0066BB; font-weight: bold">ConnectedThread</span><span style="color: #333333">(</span>BluetoothSocket socket<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+        InputStream tmpIn <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">null</span><span style="color: #333333">;</span>
+        OutputStream tmpOut <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">null</span><span style="color: #333333">;</span>
+        <span style="color: #888888">// Get the input and output streams, using temp objects because</span>
+        <span style="color: #888888">// member streams are final</span>
+        <span style="color: #008800; font-weight: bold">try</span> <span style="color: #333333">{</span>
+            tmpIn <span style="color: #333333">=</span> socket<span style="color: #333333">.</span><span style="color: #0000CC">getInputStream</span><span style="color: #333333">();</span>
+            tmpOut <span style="color: #333333">=</span> socket<span style="color: #333333">.</span><span style="color: #0000CC">getOutputStream</span><span style="color: #333333">();</span>
+        <span style="color: #333333">}</span> <span style="color: #008800; font-weight: bold">catch</span> <span style="color: #333333">(</span>IOException e<span style="color: #333333">)</span> <span style="color: #333333">{</span>
+            e<span style="color: #333333">.</span><span style="color: #0000CC">printStackTrace</span><span style="color: #333333">();</span>
+        <span style="color: #333333">}</span>
+        mmInStream <span style="color: #333333">=</span> tmpIn<span style="color: #333333">;</span>
+        mmOutStream <span style="color: #333333">=</span> tmpOut<span style="color: #333333">;</span>
+    <span style="color: #333333">}</span>
+<span style="color: #333333">}</span>
+</pre></td></tr></table></div>
