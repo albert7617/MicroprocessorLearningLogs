@@ -1,0 +1,26 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #333399; font-weight: bold">int</span> speedCtrl <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">3</span>;  <span style="color: #888888">// PWM output</span>
+<span style="color: #333399; font-weight: bold">int</span> cw <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">9</span>;         <span style="color: #888888">// L298N direction control clockwise</span>
+<span style="color: #333399; font-weight: bold">int</span> ccw <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">10</span>;       <span style="color: #888888">// L298N direction control counterclockwise</span>
+
+<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setup</span>() {
+  <span style="color: #888888">// Setting DC mortor spinning direction to clockwise</span>
+  digitalWrite(cw, HIGH); 
+  digitalWrite(ccw, LOW);
+}
+
+<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">loop</span>() {
+  analogWrite(speedCtrl, <span style="color: #0000DD; font-weight: bold">128</span>); <span style="color: #888888">// Output a 50% duty-cycle PWM signal</span>
+}
+</pre></td></tr></table></div>

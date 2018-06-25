@@ -75,6 +75,10 @@
       margin: 0 auto;
     }
 
+    img.fill {
+      width: -webkit-fill-available;
+    }
+
     .inner > p {
       text-indent: 0px;
     }
@@ -298,11 +302,45 @@
           <a href="#section1">2018年3月14日</a>
         </li>
         <li>
-          <a href="#section2">2018年3月17日</a>
+          <a href="#section2">2018年3月21日</a>
         </li>
         <li>
-          <a href="#section3">2018年3月20日</a>
+          <a href="#section3">2018年3月28日</a>
         </li>
+        <li>
+          <a href="#section4">2018年4月4日</a>
+        </li>
+        <li>
+          <a href="#section5">2018年4月11日</a>
+        </li>
+        <li>
+          <a href="#section6">2018年4月18日</a>
+        </li>
+        <li>
+          <a href="#section7">2018年4月25日</a>
+        </li>
+        <li>
+          <a href="#section8">2018年5月2日</a>
+        </li>
+        <li>
+          <a href="#section9">2018年5月9日</a>
+        </li>
+        <li>
+          <a href="#section10">2018年5月16日</a>
+        </li>
+        <li>
+          <a href="#section11">2018年5月23日</a>
+        </li>
+        <li>
+          <a href="#section12">2018年5月30日</a>
+        </li>
+        <li>
+          <a href="#section13">2018年6月6日</a>
+        </li>
+        <li>
+          <a href="#section14">總結</a>
+        </li>
+        
 
       </ul>
     </nav>
@@ -344,7 +382,7 @@
       <a class="comment-link" href="http://vincecc.blogspot.tw/2014/01/arduino-hc-06-mac.html">http://vincecc.blogspot.tw/2014/01/arduino-hc-06-mac.html</a>
       <div class="line"></div>
 
-      <h2 id="section2">2018年3月17日 星期六</h2>
+      <h2 id="section2">2018年3月21日 星期三</h2>
       <h3>Android 重力感應器使用方式：</h3>
       <p>由於我們著組會用到手機傾斜的方式來控制遙控車，所以會需要用到手機內的感應器來偵測傾角。我們可以利用Android提供加速度感應器(Accelerometer)或重力感應器(Gravity Sensor)來判斷手機的傾角，兩個感應器都會提供裝置的加速度資訊，但兩者最大的不同是加速度感應器會偵測裝置受到的所有加速度，像是裝置在移動時的加速度、重力加速度等等，而重力感應器則會整合加速度感應器和陀螺儀(Gyroscope)的資訊過濾掉裝置在移動時產生的加速度而留下單純得重力加速度，但這個感應器數值只是用在有陀螺儀的裝置上。以下是讀取感應器數值的程式碼：</p>
       <div id="androidSensor">
@@ -369,7 +407,7 @@
       <a class="comment-link" href="https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor">https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor</a>
       <div class="line"></div>
 
-      <h2 id="section3">2018年3月20日 星期二</h2>
+      <h2 id="section3">2018年3月28日 星期三</h2>
       <h3>Android 藍芽使用方式：</h3>
       <p>這部分的程式碼是從GitHub上複製下來並修改而來的，我也花了不少時間理解他，因此我會把整個連線的過程分成三個部分來說明。</p>
       <h4>第一部分-藍芽連線基礎：</h4>
@@ -445,6 +483,120 @@
       <span class="comment">android - Accelerometer vs Gravity sensor - Stack Overflow</span>
       <br>
       <a class="comment-link" href="https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor">https://stackoverflow.com/questions/22102405/accelerometer-vs-gravity-sensor</a>
+      <div class="line"></div>
+      <h2 id="section4">2018年4月4日 星期三</h2>
+      <h3>春假：</h3>
+      <p>由於嘉義的電子材料行售價高昂，於是我們利用春假回台中時，順便到台中火車站附近的電子材料行購買我們所需的零件。當天我們買的東西並不多，一顆伺服馬達跟一包齒輪組而已。</p>
+      <div class="line"></div>
+      <h2 id="section5">2018年4月11日 星期三</h2>
+      <h3>伺服馬達的使用方式：</h3>
+      <p>剛開始我們使用Arduino的範例程式碼試著了解伺服馬達的使用方式時，我們遇到了極大的問題，當我們照著網路上的範例打時(程式碼如下)，我們預期馬達會轉到90度的位置，但我們的伺服馬達並沒有轉到指定的角度反而是不停地選轉，為了找出倒底是哪裡出錯了，我們開始研究伺服馬達的運作原理。</p>
+      <div id="servo">
+        <script>
+          $(function () {
+            $("#servo").load("src/servo.html");
+          });
+        </script>
+      </div>
+      <img src="/img/signal.png" alt="" srcset="" class="center fill">
+      <p>經過一番Google之後，我們學習到伺服馬達是利用20ms為週期的PWM訊號來控制角度，當脈衝寬度為1ms時，馬達轉到0度的位置；當脈衝寬度為1.5ms時，馬達轉到90度的位置；當脈衝寬度為2ms時，馬達轉到180度的位置。得知這項資訊後，我們用示波器檢視Arduino的輸出是否正確。</p>
+      <img src="/img/servo.JPG" alt="" srcset="" class="center fill">
+      <p>在示波器檢視下，Arduino輸出如上圖，照片中並未拍到脈衝寬度，但我們確認示波器中顯示的脈衝寬度為1.5ms。現在我們確認了Arduino的輸出是沒有問題的，因此我們開始把焦點放在伺服馬達上。之後我們跟實驗室的學長借了一顆伺服馬達，並連接上Arduino後，學長的馬達正確的轉到90的位置。雖然這顆故障的伺服馬達讓我們這週沒什麼進度，但我們卻因此學習到了伺服馬達的運作原理也算是因禍得福吧。</p>
+      <div class="line"></div>
+      <h2 id="section6">2018年4月18日 星期三</h2>
+      <h3>拆車＆L298N：</h3>
+      <p>為了讓前輪部份能使用伺服馬達控制，必須先破壞部分結構，我們使用美工刀刻出伺服馬達所需的空間，過程中我們花了不少時間，最後將伺服馬達裝上並以熱熔膠固定。利用春假買的齒輪組，我們將伺服馬達的輸出連接到車子前輪的方向控制。</p>
+      <p>在拆解模型車的同時，我們用實驗室的焊槍把兩條電線焊在電池盒的正負極，接著將另外兩條電線焊在馬達的正負極，最後將這四條線鎖在L298N上，結果如下圖所示。</p>
+      <img src="/img/car.JPG" alt="" srcset="" class="center fill">
+      <p>因為我們在安裝伺服馬達的過程中花了不少時間，因此我們這週的進度只有安裝伺服馬達和安裝L298N直流馬達控制器。</p>
+      <div class="line"></div>
+      <h2 id="section7">2018年4月25日 星期三</h2>
+      <h3>L298N驅動DC馬達失敗：</h3>
+      <p>上週我們把L298N裝上，我分打算用L298N上的穩壓器輸出5伏特的電給Arduino使用，這過程還滿順利的，單純的把L298N的5V輸出和地線分別接上Arduino就可以了。接著我們用以下的程式碼試著讓馬達以50%的速度順時針旋轉，但馬達僅持續發出嗶聲而不轉動。</p>
+      <div id="dc_mortor">
+        <script>
+          $(function () {
+            $("#dc_mortor").load("src/dc_mortor.html");
+          });
+        </script>
+      </div>
+      <p>接這我們一如往常地把Arduino接上示波器觀察輸出訊號，輸出訊號如下圖所示，在我們眼中是個完美的50% duty cycle的PWM訊號。於是我們開始懷疑是不是哪裡短路了，或是L298N的接法錯誤。</p>
+      <img src="/img/pwm.JPG" alt="" class="center fill">
+      <p>經過一段時間的搜尋後，我們發現L298N的接法沒錯，IN3、IN4控制馬達的方向和停止，enB的跳線接著啟動B端輸出，但我們就是無法輸出讓馬達轉動。</p>
+      <div class="line"></div>
+      <h2 id="section8">2018年5月2日 星期三</h2>
+      <h3>換電池：</h3>
+      <p>這星期我們以為有可能是因為杜邦線鬆脫倒置直流馬達部會轉動，所以我們把所有和L298N連接的杜邦線全部拔掉重接，但這麼做並沒有解決馬達不會轉的問題，接著我們把注意放到電池上，猜測可能是電池沒電了，當我們換了新的電池後，L298N和直流馬達奇蹟似的復活了。但好景不常，接下來我們在做總體的測試時，我們發現伺服馬達又故障不轉了。</p>
+      <p>經過一番檢查後，我們發現當Arduino上只有伺服馬達，沒有L298N時，伺服馬達正常的運作，但只要一接上L298N伺服馬達就不會轉動了。因為剛剛換了電池，我們立刻把注意力放在電力供應方面的問題，因此我們開始猜測原因可能是電力不足導致，所以將Arduino改成用行動電源驅動，而不是用L298N的5V輸出驅動Arduino。當我們接上行動電源後，直流馬達和伺服馬達便開始正常運作。</p>
+      <div class="line"></div>
+      <h2 id="section9">2018年5月9日 星期三</h2>
+      <h3>藍芽接收：</h3>
+      <p>手機端的藍芽很久以前就寫好了，現在我們要開始寫Arduino接收手機藍芽傳輸的訊息。傳輸時是由手機傳送一組由前進後退、PWM、轉向角度等等的資訊組成的一組數字字串</p>
+      <p>一開始我們天真的以為可以直接讀入字串類似這樣：str = Serial.read()，但這樣完全不可行，因為Serial.read()一次只會讀取一個字元，不是讀取一串字串。得知這件事後，我們開始用迴圈一個一個字元的讀取訊息。因為我們要一個字元一個字元的讀取訊息，為了確保訊息的完整性和正確性，我們必須確保每條訊息的長度一致，因此，當PWM或是角度訊息不足三位數時，在Android端必須先補零再傳送。以下是我們實際實作的內容，當Arduino讀取到8個字的時候，代表訊息接收完成並輸出到序列。</p>
+      <div id="bluetooth_read">
+        <script>
+          $(function () {
+            $("#bluetooth_read").load("src/bluetooth_read.html");
+          });
+        </script>
+      </div>
+      <div class="line"></div>
+      <h2 id="section10">2018年5月16日 星期三</h2>
+      <h3>藍牙測試：</h3>
+      <p>上星期我們用迴圈讀取解決我們讀取藍芽資訊的問題，接著我們為了避免傳輸過程中發生錯誤導致後續的資料全部出錯，因此我們在字串最前面加上一個S代表訊息的開頭，如下方程式碼所示：</p>
+      <div id="bluetooth_read_improved">
+        <script>
+          $(function () {
+            $("#bluetooth_read_improved").load("src/bluetooth_read_improved.html");
+          });
+        </script>
+      </div>
+      <p>成功的在Arduino接收Android手機傳送的藍芽訊息後，我們開始把接收到的字串一一的解碼並輸出到Servo、L298N等等。在把字串轉為輸字的過程中，我們原本想說既然是C語言打出來的，那引用一下String.h應該可以解決我們一竊的問題吧，但事實總是殘酷的，加了#include <String.h>就編譯不過，於是我們回到最原始的ASCII直接轉換，成功的把數字解碼出來。</p>
+      <div id="bluetooth_string">
+        <script>
+          $(function () {
+            $("#bluetooth_string").load("src/bluetooth_string.html");
+          });
+        </script>
+      </div>
+      <div class="line"></div>
+      <h2 id="section11">2018年5月23日 星期三</h2>
+      <h3>超聲波安裝：</h3>
+      <p>在安裝車前超聲波感應器的時候，因為在delay的時候時間設定過短，導致超聲波感應器無法正常啟用，原因是因為pulseIn讀取需要時間，後將時間延遲 5毫秒之後，即可正常運作。而後，在將車後的超聲波感應器也裝上後，發現兩個都無法使用，原因是因為我將兩個超聲波同時delay，結果就是第一個能使用，而第二個只會讀到0。後將兩者分開延遲即解決問題。</p>
+      <p>另外，原先當超音波感測到障礙物在安全距離內，車子就會無法前進與後退，後改成前方有障礙物時不能前進只能後退，反之亦然。</p>
+      <div class="line"></div>
+      <h2 id="section12">2018年5月30日 星期三</h2>
+      <h3>統整測試：</h3>
+      <p>這周我注意到在Arduino上讀取藍芽的方法是經由序列輸入，同時我想起上個學期微處理機課程中提到的Serial Interrupt，因此我開始上網搜尋Arduino上有沒有類似的功能，經過搜尋後，我發現Arduino上有一個serialEvent的方法可以用，所以我就把原本在loop內讀取的方式改到serialEvent內。以下是我們的實作程式：</p>
+      <div id="bluetooth_read_serialEvent">
+        <script>
+          $(function () {
+            $("#bluetooth_read_serialEvent").load("src/bluetooth_read_serialEvent.html");
+          });
+        </script>
+      </div>
+      <div class="line"></div>
+      <h2 id="section13">2018年6月6日 星期三</h2>
+      <h3>74138</h3>
+      <p>這週我們打算為遙控車加上頭燈、方向燈、煞車燈等等，但由於先前用了太多元件，導致Arduino上的pin腳不足，於是我們和老師借了74138解碼ic來點亮我們的LED。拿到了74138後我們發現一個重大的困難處，74138一次只能輸出一顆LED，因此我們想到用快速開關LED的方式，讓多顆LED燈看起來像是同時點亮的。剛開始我們把切換LED的程式直接放在Loop()內，程式碼如下：</p>
+      <div id="switch_loop">
+        <script>
+          $(function () {
+            $("#switch_loop").load("src/switch_loop.html");
+          });
+        </script>
+      </div>
+      <p>這段程式碼在這邊運作正常，三顆LED同時啟動，但到了我們完整的程式碼時，LED卻是分別閃爍。經過我們著解掉一段一段程式碼的後，我們發現是超音波的延遲讓LED無法看起來像是同時在亮。前述的方式失敗了，但其實我一開始就有想到另一個方式，只是直接放進loop內比較簡單無腦。另一個方式是利用上個學期微處理機課程中學到的Timer Interrupt來實作，因為我們的Timer1已經被Servo.h這個函示庫用掉了，所以我們選擇用Timer2作為我們的觸發計時器。在尋找如何啟用Timer Interrupt的過程中，我注意到Arduino上的PWM輸出其實是依賴Timer來實作的，其中腳位5和6使用timer0；腳位9和10使用timer1；腳位11和3使用timer2。因此我們把原本在腳位11控制轉速的PWM輸出換到腳位6去。</p>
+      <div class="line"></div>
+      <h2 id="section14">總結</h2>
+      <h3>整體程式碼</h3>
+      <div id="main">
+        <script>
+          $(function () {
+            $("#main").load("src/main.html");
+          });
+        </script>
+      </div>
       <div class="line"></div>
     </div>
   </div>

@@ -1,0 +1,25 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #557799">#include &lt;Servo.h&gt;</span>
+
+Servo myservo;   <span style="color: #888888">// Create servo object to control a servo</span>
+<span style="color: #333399; font-weight: bold">int</span> pos <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">90</span>;    <span style="color: #888888">// Variable to store the servo position</span>
+
+<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setup</span>() {
+  myservo.attach(<span style="color: #0000DD; font-weight: bold">9</span>);  <span style="color: #888888">// Attaches the servo on pin 9 to the servo object</span>
+}
+
+<span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">loop</span>() {
+  myservo.write(pos);  <span style="color: #888888">// Tell servo to go to position in variable &#39;pos&#39;</span>
+}
+</pre></td></tr></table></div>
+ 
