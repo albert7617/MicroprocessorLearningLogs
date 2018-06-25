@@ -394,7 +394,7 @@
       </div>
       <br>
       <p>為了得到感應器的數值必須在第3行透過getSystemService取得SensorManager，接著用sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)來取得重力感應器，這邊的Sensor.TYPE_GRAVITY可以改成其他參數來取得不同的感應器，像是傳入Sensor.TYPE_GYROSCOPE可以得到陀螺儀。</p>
-      <img src="MicroprocessorLearningLogs/img/axis_device.png" alt="" srcset="" class="center">
+      <img src="/img/axis_device.png" alt="" srcset="" class="center">
       <p>得到感應器之後，必須註冊一個傾聽者(Listener)才能夠得到感應器的數值。在第4行建立一個SensorEventListener物件，在第6行，當感應器數值有變化時會呼叫這個方法(Method)，這邊的程式是當感應器的數值有變化時，會把感應器的數值寫到主控台(Console)，其中sensorEvent.values[0]、sensorEvent.values[1]、sensorEvent.values[2]分別代表X、Y、Z方向的加速度(如上圖所示)。最後在第21行把前面的重力感應器註冊到傾聽者。</p>
       <span>參考資料：</span>
       <br>
@@ -498,16 +498,16 @@
           });
         </script>
       </div>
-      <img src="MicroprocessorLearningLogs/img/signal.png" alt="" srcset="" class="center fill">
+      <img src="/img/signal.png" alt="" srcset="" class="center fill">
       <p>經過一番Google之後，我們學習到伺服馬達是利用20ms為週期的PWM訊號來控制角度，當脈衝寬度為1ms時，馬達轉到0度的位置；當脈衝寬度為1.5ms時，馬達轉到90度的位置；當脈衝寬度為2ms時，馬達轉到180度的位置。得知這項資訊後，我們用示波器檢視Arduino的輸出是否正確。</p>
-      <img src="MicroprocessorLearningLogs/img/servo.JPG" alt="" srcset="" class="center fill">
+      <img src="/img/servo.JPG" alt="" srcset="" class="center fill">
       <p>在示波器檢視下，Arduino輸出如上圖，照片中並未拍到脈衝寬度，但我們確認示波器中顯示的脈衝寬度為1.5ms。現在我們確認了Arduino的輸出是沒有問題的，因此我們開始把焦點放在伺服馬達上。之後我們跟實驗室的學長借了一顆伺服馬達，並連接上Arduino後，學長的馬達正確的轉到90的位置。雖然這顆故障的伺服馬達讓我們這週沒什麼進度，但我們卻因此學習到了伺服馬達的運作原理也算是因禍得福吧。</p>
       <div class="line"></div>
       <h2 id="section6">2018年4月18日 星期三</h2>
       <h3>拆車＆L298N：</h3>
       <p>為了讓前輪部份能使用伺服馬達控制，必須先破壞部分結構，我們使用美工刀刻出伺服馬達所需的空間，過程中我們花了不少時間，最後將伺服馬達裝上並以熱熔膠固定。利用春假買的齒輪組，我們將伺服馬達的輸出連接到車子前輪的方向控制。</p>
       <p>在拆解模型車的同時，我們用實驗室的焊槍把兩條電線焊在電池盒的正負極，接著將另外兩條電線焊在馬達的正負極，最後將這四條線鎖在L298N上，結果如下圖所示。</p>
-      <img src="MicroprocessorLearningLogs/img/car.JPG" alt="" srcset="" class="center fill">
+      <img src="/img/car.JPG" alt="" srcset="" class="center fill">
       <p>因為我們在安裝伺服馬達的過程中花了不少時間，因此我們這週的進度只有安裝伺服馬達和安裝L298N直流馬達控制器。</p>
       <div class="line"></div>
       <h2 id="section7">2018年4月25日 星期三</h2>
@@ -521,7 +521,7 @@
         </script>
       </div>
       <p>接這我們一如往常地把Arduino接上示波器觀察輸出訊號，輸出訊號如下圖所示，在我們眼中是個完美的50% duty cycle的PWM訊號。於是我們開始懷疑是不是哪裡短路了，或是L298N的接法錯誤。</p>
-      <img src="MicroprocessorLearningLogs/img/pwm.JPG" alt="" class="center fill">
+      <img src="/img/pwm.JPG" alt="" class="center fill">
       <p>經過一段時間的搜尋後，我們發現L298N的接法沒錯，IN3、IN4控制馬達的方向和停止，enB的跳線接著啟動B端輸出，但我們就是無法輸出讓馬達轉動。</p>
       <div class="line"></div>
       <h2 id="section8">2018年5月2日 星期三</h2>
